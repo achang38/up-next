@@ -34,3 +34,8 @@ Create Table LikedMovie(UserPassword varchar(255), UserName varchar(255), ID var
 
 Create Table DislikedMovie(UserPassword varchar(255), UserName varchar(255), ID varchar(9), primary key(Userpassword,Username,ID),FOREIGN KEY (UserPassword, UserName) REFERENCES ProgramUser(UserPassword, UserName) ON update cascade ON delete cascade, FOREIGN KEY (ID) REFERENCES movie(ID));
 
+Create Table ActedIn(ID varchar(9), actorID varchar(16), primary key(ID,actorID));
+
+Create Table Directed(ID varchar(9), actorID varchar(16), primary key(ID,actorID));
+
+create table Ratings(ID varchar(16),avgtotal tinyint, avg0 tinyint, avg18 tinyint, avg30 tinyint, avg45 tinyint, primary key(ID));
