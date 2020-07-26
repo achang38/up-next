@@ -6,5 +6,9 @@ Running this application requires the installation of Java and MySQL. First, run
 
 ## Authors
 Allen Chang
+
+
 Joel Foster
+
+
 Logan Crooks
