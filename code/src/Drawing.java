@@ -1352,11 +1352,14 @@ public class Drawing extends Canvas {
 		    
 		    
 		    // this gets all the information from the database and and places the information 
-		    //inside the list to be displayed and clicked on
-		    ArrayList<Pair> simactorMovies = Database.simActorMovie(currPassword,currUser);
-			ArrayList<Pair> simgenreMovies = Database.simGenreMovie(currPassword,currUser);
-			ArrayList<Pair> simdirMovies = Database.simDirMovie(currPassword,currUser);
-			ArrayList<Pair> simallMovies = Database.simAllMovie(currPassword,currUser);
+			//inside the list to be displayed and clicked on
+			int age = Integer.parseInt(Database.getAge(currUser,currPassword));
+			int ageIndex = Database.getAgeIndex(age);
+
+		    ArrayList<Pair> simactorMovies = Database.simActorMovie(currPassword,currUser,ageIndex);
+			ArrayList<Pair> simgenreMovies = Database.simGenreMovie(currPassword,currUser,ageIndex);
+			ArrayList<Pair> simdirMovies = Database.simDirMovie(currPassword,currUser,ageIndex);
+			ArrayList<Pair> simallMovies = Database.simAllMovie(currPassword,currUser,ageIndex);
 
 			for(int i =0;i<simactorMovies.size();i++) {
 				datasimactor.addElement(simactorMovies.get(i));
@@ -1591,19 +1594,17 @@ public class Drawing extends Canvas {
 		 String origSyn = movieInfo.get(2).toString();
 		 String Synopsisst = origSyn.replaceAll("(.{1,25})(?:$| )", "$1\n");
 		 String Directorsst = movieInfo.get(9).toString();
-		 String Ratingst = "8.7";
+		 String Ratingst = movieInfo.get(12).toString();
 	     String grossst =  movieInfo.get(8).toString();
 	     String contreyst = movieInfo.get(6).toString();
 	     String langst =movieInfo.get(10).toString();
 	     String realsedatest =movieInfo.get(3).toString();
 	     String Durationst =movieInfo.get(5).toString();
 		 String MovieGenrest =movieInfo.get(4).toString();
-		 String actors = movieInfo.get(11).toString();
+		 
 		 // we need to split the string of actors so they can be placen 
 		 //in the pane so they can be clicked on 
-		 actors = actors.replaceAll(",\\s+",",");
-		 String [] listofactors = actors.split(",");
-		 ArrayList<Pair> actorsinMovie = Database.getPeople(listofactors);
+		 ArrayList<Pair> actorsinMovie = Database.getActors(IDst);
 		 // @ ask allen if we still need this
 		 System.out.println("actors size:"+actorsinMovie.size());
 		 for(int i = 0; i<actorsinMovie.size();i++) {
@@ -2155,11 +2156,11 @@ public class Drawing extends Canvas {
 	        
 	     UserRealNamefld.setBounds(width/5, height/2+40, 150,50 );
 	     UserRealNamefld.setBackground(teal);
-	     UserRealNamefld.setText("change Real Name Here");
+	     UserRealNamefld.setText(Database.getRealName(currUser,currPassword));
 	        
 	     UserAgefld.setBounds(width/5, height/2+140, 150,50 );
 	     UserAgefld.setBackground(teal);
-	     UserAgefld.setText("change Age Here");
+	     UserAgefld.setText(Database.getAge(currUser,currPassword));
 	     // end of fields
 	     
 	     // start of panes

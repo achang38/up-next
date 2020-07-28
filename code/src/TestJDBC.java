@@ -10,7 +10,8 @@ public class TestJDBC {
     static final String SQLpassword=""; // enter password TODO CHANGE if you've just pulled
     private Connection connection = null;
     private Statement statement = null;
-    private ResultSet resultSet = null;
+	private ResultSet resultSet = null;
+	private static String[] agecolumns = {"avg0","avg18","avg30","avg45"};
    
     
     public void Connection(){
@@ -170,6 +171,7 @@ public class TestJDBC {
     	return movies;
 	}
 	
+	
 	public ArrayList<Pair> likedMovie(String password,String user) {
     	ArrayList<Pair> movies = new ArrayList<Pair>();
     	
@@ -311,14 +313,29 @@ public class TestJDBC {
 	}
 	
 	
-	public ArrayList<Pair> simActorMovie(String password,String user) {
+	public ArrayList<Pair> simActorMovie(String password,String user, int ageIndex) {
 		ArrayList<Pair> movies = new ArrayList<Pair>();
-    	
+		String agecolumn = agecolumns[ageIndex];
+		System.out.println("select m.title, m.id from movie m, actedin a where m.id not in "+
+			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
+			"and a.id=m.id and a.actorid in (select actorid from likedpeople where username='"+user+
+			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
+			"' and userpassword='"+password+"') limit 15;");
+
     	try {
 			statement = connection.createStatement();
 			
-    		resultSet = statement.executeQuery("select m.title, m.ID from movie m order by rand() limit 10");
+			resultSet = statement.executeQuery("select m.title, m.id from movie m, actedin a where m.id not in "+
+			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
+			"and a.id=m.id and a.actorid in (select actorid from likedpeople where username='"+user+
+			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
+			"' and userpassword='"+password+"') order by "+agecolumn+" desc limit 15;");
 
+			
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
@@ -347,16 +364,155 @@ public class TestJDBC {
     	return movies;
 	}
 
-	public ArrayList<Pair> simGenreMovie(String password,String user) {
-		return simActorMovie(password,user);
+	public ArrayList<Pair> simGenreMovie(String password,String user,int ageIndex) {
+		ArrayList<Pair> movies = new ArrayList<Pair>();
+		String agecolumn = agecolumns[ageIndex];
+		System.out.println("select m.title, m.id from movie m where m.moviegenre in"+
+		"(select m2.moviegenre from favoritemovie f, movie m2 where f.username='"+user+"' and f.userpassword='"+password+
+		"' and f.id=m2.id) and m.id not in (select id from likedmovie where username='"+user+"' and userpassword='"+password+
+		"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
+		"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') limit 15; ");
+
+    	try {
+			statement = connection.createStatement();
+			
+			resultSet = statement.executeQuery("select m.title, m.id from movie m where m.moviegenre in"+
+			"(select m2.moviegenre from favoritemovie f, movie m2 where f.username='"+user+"' and f.userpassword='"+password+
+			"' and f.id=m2.id) and m.id not in (select id from likedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') order by "+agecolumn+" desc limit 15; ");
+
+			
+    		ResultSetMetaData metaData = resultSet.getMetaData();
+    		int columns = metaData.getColumnCount();
+
+    		for (int i=1; i<= columns; i++) {
+    			System.out.print(metaData.getColumnName(i)+"\t");
+    		}
+
+    		System.out.println();
+
+    		while (resultSet.next()) {
+       
+    			for (int i=1; i<= columns; i++) {
+    				System.out.print(resultSet.getObject(i)+"\t\t");
+    			}
+    			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
+    			//System.out.print(resultSet.getObject(1)+"\t\t");
+    			movies.add(p);
+    			
+    			System.out.println();
+    		}
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return movies;
 	}
 
-	public ArrayList<Pair> simDirMovie(String password,String user) {
-		return simActorMovie(password,user);
+	public ArrayList<Pair> simDirMovie(String password,String user,int ageIndex) {
+		ArrayList<Pair> movies = new ArrayList<Pair>();
+		String agecolumn = agecolumns[ageIndex];
+		System.out.println("select m.title, m.id from movie m, directed a where m.id not in "+
+			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
+			"and a.id=m.id and a.actorid in (select actorid from likedpeople where username='"+user+
+			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
+			"' and userpassword='"+password+"') limit 15;");
+
+    	try {
+			statement = connection.createStatement();
+			
+			resultSet = statement.executeQuery("select m.title, m.id from movie m, directed a where m.id not in "+
+			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
+			"and a.id=m.id and a.actorid in (select actorid from likedpeople where username='"+user+
+			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
+			"' and userpassword='"+password+"') order by "+agecolumn+" desc limit 15;");
+
+			
+    		ResultSetMetaData metaData = resultSet.getMetaData();
+    		int columns = metaData.getColumnCount();
+
+    		for (int i=1; i<= columns; i++) {
+    			System.out.print(metaData.getColumnName(i)+"\t");
+    		}
+
+    		System.out.println();
+
+    		while (resultSet.next()) {
+       
+    			for (int i=1; i<= columns; i++) {
+    				System.out.print(resultSet.getObject(i)+"\t\t");
+    			}
+    			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
+    			//System.out.print(resultSet.getObject(1)+"\t\t");
+    			movies.add(p);
+    			
+    			System.out.println();
+    		}
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return movies;
 	}
 
-	public ArrayList<Pair> simAllMovie(String password,String user) {
-		return simActorMovie(password,user);
+	public ArrayList<Pair> simAllMovie(String password,String user, int ageIndex) {
+		ArrayList<Pair> movies = new ArrayList<Pair>();
+		String agecolumn = agecolumns[ageIndex];
+		System.out.println("select m.title, m.id from movie m, directed a where m.id not in "+
+			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
+			"and a.id=m.id and a.actorid in (select actorid from likedpeople where username='"+user+
+			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
+			"' and userpassword='"+password+"') limit 15;");
+
+    	try {
+			statement = connection.createStatement();
+			
+			resultSet = statement.executeQuery("select m.title, m.id from movie m, directed a, actedin a2 where m.id not in "+
+			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
+			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
+			"and a.id=m.id and a.actorid in (select actorid from likedpeople where username='"+user+
+			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
+			"' and userpassword='"+password+"') and a2.id=m.id and a2.actorid in (select actorid from likedpeople where username='"+user+
+			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
+			"' and userpassword='"+password+"') order by "+agecolumn+" desc limit 15;");
+
+			
+    		ResultSetMetaData metaData = resultSet.getMetaData();
+    		int columns = metaData.getColumnCount();
+
+    		for (int i=1; i<= columns; i++) {
+    			System.out.print(metaData.getColumnName(i)+"\t");
+    		}
+
+    		System.out.println();
+
+    		while (resultSet.next()) {
+       
+    			for (int i=1; i<= columns; i++) {
+    				System.out.print(resultSet.getObject(i)+"\t\t");
+    			}
+    			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
+    			//System.out.print(resultSet.getObject(1)+"\t\t");
+    			movies.add(p);
+    			
+    			System.out.println();
+    		}
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return movies;
 	}
 
     public ArrayList<Pair> searchPeople(String person) {
@@ -365,6 +521,40 @@ public class TestJDBC {
     	try {
     		statement = connection.createStatement();
     		resultSet = statement.executeQuery("select castname,actorid from person where castname like '%"+person+"%';");
+
+    		ResultSetMetaData metaData = resultSet.getMetaData();
+    		int columns = metaData.getColumnCount();
+
+    		for (int i=1; i<= columns; i++) {
+    			System.out.print(metaData.getColumnName(i)+"\t");
+    		}
+
+    		System.out.println();
+
+    		while (resultSet.next()) {
+       
+    			
+    			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
+    			//System.out.print(resultSet.getObject(1)+"\t\t");
+    			people.add(p);
+    			
+    			System.out.println();
+    		}
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return people;
+	}
+
+	public ArrayList<Pair> getActors(String person) {
+    	ArrayList<Pair> people = new ArrayList<Pair>();
+    	
+    	try {
+    		statement = connection.createStatement();
+			resultSet = statement.executeQuery("select p.castname,p.actorid from person p, actedin a where p.actorid=a.actorid and a.id='"
+			+person+"';");
 
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
@@ -515,6 +705,43 @@ public class TestJDBC {
     	}
 	}
 
+	public int getAgeIndex(int age) {
+		if(age<18) return 0;
+		if(age<30) return 1;
+		if(age<45) return 2;
+		return 3;
+	}
+
+	public String getRealName(String user, String password) {
+		try {
+    			statement = connection.createStatement();
+    			resultSet = statement.executeQuery("select realname from programuser where username='"+user+"' and userpassword='"+password+"';");
+				
+				resultSet.next();
+				return (String)resultSet.getObject(1);
+				
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+		}
+		return "";
+	}
+
+	public String getAge(String user, String password) {
+		try {
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery("select age from programuser where username='"+user+"' and userpassword='"+password+"';");
+			resultSet.next();
+		
+			return Integer.toString((Integer)resultSet.getObject(1));
+			
+	}
+	catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return "";
+	}
+
 	public void removeLikedMovie(String movieID, String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -574,7 +801,8 @@ public class TestJDBC {
 
     	TestJDBC demoObj = new TestJDBC();
 		demoObj.Connection();
-		demoObj.simActorMovie("Enter Password Here","billybob");
+		System.out.println(demoObj.simGenreMovie("Enter Password Here","frankie5",1));
+		//demoObj.simActorMovie("Enter Password Here","billybob");
     	//String sqlQuery ="select * from student where level = 'JR';";
     	//demoObj.simpleQuery(sqlQuery);
     	//System.out.println(demoObj.verifyLogin("12345", "test1"));

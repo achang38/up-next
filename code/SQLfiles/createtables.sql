@@ -11,6 +11,11 @@ create table movie(
                       Director varchar(255),
                       mLanguage varchar(255),
                       listofactors varchar(1000),
+                      avgtotal decimal(10,1),
+                      avg0 decimal(10,1),
+                      avg18 decimal(10,1),
+                      avg30 decimal(10,1),
+                      avg45 decimal(10,1),
                       primary key(ID));
 
 create table person(
@@ -38,4 +43,9 @@ Create Table ActedIn(ID varchar(9), actorID varchar(16), primary key(ID,actorID)
 
 Create Table Directed(ID varchar(9), actorID varchar(16), primary key(ID,actorID));
 
-create table Ratings(ID varchar(16),avgtotal tinyint, avg0 tinyint, avg18 tinyint, avg30 tinyint, avg45 tinyint, primary key(ID));
+create table Ratings(avgtotal decimal(10,1),
+                      avg0 decimal(10,1),
+                      avg18 decimal(10,1),
+                      avg30 decimal(10,1),
+                      avg45 decimal(10,1),
+                      primary key(ID));
