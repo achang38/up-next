@@ -7,7 +7,7 @@ public class TestJDBC {
     static final String SQLlogin ="root"; // TODO change if pulled
     static final String hostName ="localhost:3306"; //TODO CHANGE if you've just pulled
     static final String databaseURL ="jdbc:mysql://"+hostName+"/"+databasePrefix+"?autoReconnect=true&useSSL=false";
-    static final String SQLpassword="Musk$#eteer>3"; // enter password TODO CHANGE if you've just pulled
+    static final String SQLpassword=""; // enter password TODO CHANGE if you've just pulled
     private Connection connection = null;
     private Statement statement = null;
 	private ResultSet resultSet = null;
@@ -29,34 +29,6 @@ public class TestJDBC {
             e.printStackTrace();
         }
     }
-    
-    public void simpleQuery(String sqlQuery) {
-    
-    	try {
-    		statement = connection.createStatement();
-    		resultSet = statement.executeQuery(sqlQuery);
-
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
-
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
-
-    		while (resultSet.next()) {
-       
-    			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
-    			}
-    			System.out.println();
-    		}
-    	}
-    	catch (SQLException e) {
-    		e.printStackTrace();
-    	}
-	}
 	
 	public ArrayList<Object> getMovieInfo(String movieID) {
 		ArrayList<Object> mInfo = new ArrayList<Object>();
@@ -67,20 +39,14 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
 
     		while (resultSet.next()) {
        
     			for (int i=1; i<= columns; i++) {
-					System.out.print(resultSet.getObject(i)+"\t\t");
 					mInfo.add(resultSet.getObject(i));
 					//create table movie(ID, Title, dateOfRelease, MovieGenre, Duration, country , Writers, worldgross, Director, mLanguage, listofactors
     			}
-    			System.out.println();
+
     		}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -92,11 +58,11 @@ public class TestJDBC {
     	try {
     		statement = connection.createStatement();
     		resultSet = statement.executeQuery("select * from ProgramUser where UserName='"+username+"' and UserPassword='"+password+"';" );
-    		System.out.println("select * from ProgramUser where UserName='"+username+"' and UserPassword='"+password+"';");
+    		
     		if(!resultSet.next()) {
     			return false;
     		} else {
-    			System.out.println(resultSet.getObject(1));
+    	
     			return true;
     		}
     	}
@@ -114,7 +80,7 @@ public class TestJDBC {
     		if(!resultSet.next()) {
     			return true;
     		} else {
-    			System.out.println(resultSet.getObject(1));
+    			
     			return false;
     		}
     	}
@@ -128,7 +94,7 @@ public class TestJDBC {
     	try {
     		statement = connection.createStatement();
     		statement.executeUpdate("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -146,22 +112,17 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
 
     		while (resultSet.next()) {
        
     			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
+    				
     			}
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+    			
     			movies.add(p);
     			
-    			System.out.println();
+    			
     		}
     	}
     	catch (SQLException e) {
@@ -182,22 +143,14 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
 
     		while (resultSet.next()) {
        
-    			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
-    			}
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+    			
     			movies.add(p);
     			
-    			System.out.println();
+    		
     		}
     	}
     	catch (SQLException e) {
@@ -217,22 +170,13 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
 
     		while (resultSet.next()) {
-       
-    			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
-    			}
+    
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+    		
     			people.add(p);
     			
-    			System.out.println();
     		}
     	}
     	catch (SQLException e) {
@@ -252,22 +196,12 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
-
     		while (resultSet.next()) {
        
-    			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
-    			}
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
     			movies.add(p);
     			
-    			System.out.println();
+
     		}
     	}
     	catch (SQLException e) {
@@ -287,22 +221,14 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
 
     		while (resultSet.next()) {
        
-    			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
-    			}
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+
     			people.add(p);
     			
-    			System.out.println();
+
     		}
     	}
     	catch (SQLException e) {
@@ -316,13 +242,7 @@ public class TestJDBC {
 	public ArrayList<Pair> simActorMovie(String password,String user, int ageIndex) {
 		ArrayList<Pair> movies = new ArrayList<Pair>();
 		String agecolumn = agecolumns[ageIndex];
-		System.out.println("select m.title, m.id from movie m, actedin a where m.id not in "+
-			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
-			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
-			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
-			"and a.id=m.id and a.actorid in (select actorid from likedpeople where username='"+user+
-			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
-			"' and userpassword='"+password+"') limit 15;");
+		
 
     	try {
 			statement = connection.createStatement();
@@ -339,22 +259,15 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
 
-    		System.out.println();
 
     		while (resultSet.next()) {
        
-    			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
-    			}
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+    
     			movies.add(p);
     			
-    			System.out.println();
+    	
     		}
     	}
     	catch (SQLException e) {
@@ -367,11 +280,7 @@ public class TestJDBC {
 	public ArrayList<Pair> simGenreMovie(String password,String user,int ageIndex) {
 		ArrayList<Pair> movies = new ArrayList<Pair>();
 		String agecolumn = agecolumns[ageIndex];
-		System.out.println("select m.title, m.id from movie m where m.moviegenre in"+
-		"(select m2.moviegenre from favoritemovie f, movie m2 where f.username='"+user+"' and f.userpassword='"+password+
-		"' and f.id=m2.id) and m.id not in (select id from likedmovie where username='"+user+"' and userpassword='"+password+
-		"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
-		"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') limit 15; ");
+		
 
     	try {
 			statement = connection.createStatement();
@@ -386,22 +295,14 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
 
-    		System.out.println();
 
     		while (resultSet.next()) {
        
-    			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
-    			}
+ 
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+
     			movies.add(p);
-    			
-    			System.out.println();
     		}
     	}
     	catch (SQLException e) {
@@ -414,13 +315,6 @@ public class TestJDBC {
 	public ArrayList<Pair> simDirMovie(String password,String user,int ageIndex) {
 		ArrayList<Pair> movies = new ArrayList<Pair>();
 		String agecolumn = agecolumns[ageIndex];
-		System.out.println("select m.title, m.id from movie m, directed a where m.id not in "+
-			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
-			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
-			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
-			"and a.id=m.id and a.actorid in (select actorid from likedpeople where username='"+user+
-			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
-			"' and userpassword='"+password+"') limit 15;");
 
     	try {
 			statement = connection.createStatement();
@@ -437,22 +331,11 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
-
     		while (resultSet.next()) {
        
-    			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
-    			}
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+
     			movies.add(p);
-    			
-    			System.out.println();
     		}
     	}
     	catch (SQLException e) {
@@ -465,13 +348,6 @@ public class TestJDBC {
 	public ArrayList<Pair> simAllMovie(String password,String user, int ageIndex) {
 		ArrayList<Pair> movies = new ArrayList<Pair>();
 		String agecolumn = agecolumns[ageIndex];
-		System.out.println("select m.title, m.id from movie m, directed a where m.id not in "+
-			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
-			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
-			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
-			"and a.id=m.id and a.actorid in (select actorid from likedpeople where username='"+user+
-			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
-			"' and userpassword='"+password+"') limit 15;");
 
     	try {
 			statement = connection.createStatement();
@@ -490,22 +366,13 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
 
     		while (resultSet.next()) {
        
-    			for (int i=1; i<= columns; i++) {
-    				System.out.print(resultSet.getObject(i)+"\t\t");
-    			}
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+   
     			movies.add(p);
     			
-    			System.out.println();
     		}
     	}
     	catch (SQLException e) {
@@ -525,20 +392,13 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
-    		}
-
-    		System.out.println();
-
     		while (resultSet.next()) {
        
     			
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+
     			people.add(p);
-    			
-    			System.out.println();
+
     		}
     	}
     	catch (SQLException e) {
@@ -559,20 +419,41 @@ public class TestJDBC {
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
 
-    		for (int i=1; i<= columns; i++) {
-    			System.out.print(metaData.getColumnName(i)+"\t");
+    		while (resultSet.next()) {
+       
+    			
+    			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
+    		
+    			people.add(p);
+    			
+    	
     		}
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return people;
+	}
 
-    		System.out.println();
+	public ArrayList<Pair> getDirectors(String person) {
+    	ArrayList<Pair> people = new ArrayList<Pair>();
+    	
+    	try {
+    		statement = connection.createStatement();
+			resultSet = statement.executeQuery("select p.castname,p.actorid from person p, directed a where p.actorid=a.actorid and a.id='"
+			+person+"';");
+
+    		ResultSetMetaData metaData = resultSet.getMetaData();
+    		int columns = metaData.getColumnCount();
 
     		while (resultSet.next()) {
        
     			
     			Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    			//System.out.print(resultSet.getObject(1)+"\t\t");
+    			
     			people.add(p);
     			
-    			System.out.println();
     		}
     	}
     	catch (SQLException e) {
@@ -582,35 +463,12 @@ public class TestJDBC {
     	return people;
 	}
 	
-	public ArrayList<Pair> getPeople(String[] person) {
-    	ArrayList<Pair> people = new ArrayList<Pair>();
-    	
-    	try {
-			for(int i = 0;i<person.length;i++) {
-    			statement = connection.createStatement();
-    			resultSet = statement.executeQuery("select castname,actorid from person where castname='"+person[i]+"';");
-				System.out.println(person[i]);
-    			while (resultSet.next()) {
-				
-				
-    				Pair p = new Pair((String)resultSet.getObject(2),(String)resultSet.getObject(1));
-    				//System.out.print(resultSet.getObject(1)+"\t\t");
-    				people.add(p);
-				}
-			}
-    	}
-    	catch (SQLException e) {
-    		e.printStackTrace();
-    	}
-    	
-    	return people;
-    }
     
     public void addLikedMovie(String password, String user, String id) {
     	try {
     		statement = connection.createStatement();
     		statement.executeUpdate("insert into LikedMovie(UserPassword,UserName,ID) values('"+password+"','"+user+"','"+id+"');");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -621,7 +479,7 @@ public class TestJDBC {
     	try {
     		statement = connection.createStatement();
     		statement.executeUpdate("insert into DislikedMovie(UserPassword,UserName,ID) values('"+password+"','"+user+"','"+id+"');");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -632,7 +490,7 @@ public class TestJDBC {
     	try {
     		statement = connection.createStatement();
     		statement.executeUpdate("insert into LikedPeople(UserPassword,UserName,ActorID) values('"+password+"','"+user+"','"+id+"');");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -643,7 +501,7 @@ public class TestJDBC {
     	try {
     		statement = connection.createStatement();
     		statement.executeUpdate("insert into FavoriteMovie(UserPassword,UserName,ID) values('"+password+"','"+user+"','"+id+"');");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -654,7 +512,7 @@ public class TestJDBC {
     	try {
     		statement = connection.createStatement();
     		statement.executeUpdate("insert into FavoritePerson(UserPassword,UserName,ActorID) values('"+password+"','"+user+"','"+id+"');");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -665,7 +523,7 @@ public class TestJDBC {
 		try {
     		statement = connection.createStatement();
     		statement.executeUpdate("update ProgramUser set UserName='"+newuser+"' where UserName='"+user+"' and UserPassword='"+password+"';");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -676,7 +534,7 @@ public class TestJDBC {
 		try {
     		statement = connection.createStatement();
     		statement.executeUpdate("update ProgramUser set UserPassword='"+newpass+"' where UserName='"+user+"' and UserPassword='"+password+"';");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -687,7 +545,7 @@ public class TestJDBC {
 		try {
     		statement = connection.createStatement();
     		statement.executeUpdate("update ProgramUser set age="+newage+" where UserName='"+user+"' and UserPassword='"+password+"';");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -698,7 +556,7 @@ public class TestJDBC {
 		try {
     		statement = connection.createStatement();
     		statement.executeUpdate("update ProgramUser set RealName='"+newname+"' where UserName='"+user+"' and UserPassword='"+password+"';");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -746,7 +604,7 @@ public class TestJDBC {
 		try {
     		statement = connection.createStatement();
     		statement.executeUpdate("delete from LikedMovie where ID='"+movieID+"' and UserName='"+user+"' and UserPassword='"+password+"';");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -757,7 +615,7 @@ public class TestJDBC {
 		try {
     		statement = connection.createStatement();
     		statement.executeUpdate("delete from LikedPeople where actorID='"+actorID+"' and UserName='"+user+"' and UserPassword='"+password+"';");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -768,7 +626,7 @@ public class TestJDBC {
 		try {
     		statement = connection.createStatement();
     		statement.executeUpdate("delete from FavoriteMovie where ID='"+movieID+"' and UserName='"+user+"' and UserPassword='"+password+"';");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -779,7 +637,7 @@ public class TestJDBC {
 		try {
     		statement = connection.createStatement();
     		statement.executeUpdate("delete from FavoritePerson where actorID='"+actorID+"' and UserName='"+user+"' and UserPassword='"+password+"';");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();
@@ -790,7 +648,7 @@ public class TestJDBC {
 		try {
     		statement = connection.createStatement();
     		statement.executeUpdate("delete from ProgramUser where UserName='"+user+"' and UserPassword='"+password+"';");
-    		//System.out.println("insert into ProgramUser(UserPassword,UserName,RealName,Age) values('"+password+"','"+username+"','"+name+"',"+age+");");
+    		
     	}
     	catch (SQLException e) {
     		e.printStackTrace();

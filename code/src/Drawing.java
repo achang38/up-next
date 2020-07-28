@@ -444,7 +444,7 @@ public class Drawing extends Canvas {
 	     searchmoviebtn.setBounds(190+width/5,height/2-150, 150, 50);
 	     searchmoviebtn.setBackground(yellow);
 	     
-	     searchactorbtn.setText("Search Actor");
+	     searchactorbtn.setText("Search Person");
 	     searchactorbtn.setBounds(167+3*width/5,height/2-150, 150, 50);
 	     searchactorbtn.setBackground(yellow);
 	     
@@ -473,7 +473,7 @@ public class Drawing extends Canvas {
 	     
 	     Searchactorfld.setBounds(3*width/5-30, height/2-150, 150,50 );
 	     Searchactorfld.setBackground(teal);
-	     Searchactorfld.setText("Search Actor name here");
+	     Searchactorfld.setText("Search Person name here");
 	     // end of JTextField
 	     
 	     // start of JScrollPane
@@ -512,13 +512,13 @@ public class Drawing extends Canvas {
 	        		
 	        		try {
 	        			int age = Integer.parseInt(Userage);
-	        			System.out.println(username+" "+Userpassword+" "+UserRealName+" "+age);
+	        			
 	        			Database.addNewUser(username, Userpassword,UserRealName,age);
 	        			// this is just so it has time to interface with the data base,
 	        			// after all creating a new user may take a while
 	        			Thread.sleep(2000);
 	        			//@ ask allen if this can be removed
-	        			System.out.println("LIKED MOVIES "+((Pair)dataliked.get(1)).getKey());
+	        			
 	        			
 	        			for(int i = 0; i < datalikedactorsone.size();i++) {
 	        				Database.addLikedPerson(Userpassword, username, ((Pair)datalikedactorsone.get(i)).getKey());
@@ -1259,7 +1259,7 @@ public class Drawing extends Canvas {
 			SimGenraLb.setForeground(white);
 			SimGenraLb.setOpaque(true);
 			SimGenraLb.setBackground(grey);
-			SimGenraLb.setText("Recommended Movies \nWith liked Genres");
+			SimGenraLb.setText("Recommended Movies \nWith favorite Genre");
 			SimGenraLb.setBounds(2*width/5+60, 200, 200, 75);
 			SimGenraLb.setFont(new Font("Courier", Font.BOLD,15));
 			
@@ -1611,11 +1611,10 @@ public class Drawing extends Canvas {
 		 String actors = movieInfo.get(11).toString();
 		 // we need to split the string of actors so they can be placen 
 		 //in the pane so they can be clicked on 
-		 actors = actors.replaceAll(",\\s+",",");
-		 String [] listofactors = actors.split(",");
+		 
 		 ArrayList<Pair> actorsinMovie = Database.getActors(IDst);
 		 // @ ask allen if we still need this
-		 System.out.println("actors size:"+actorsinMovie.size());
+		 
 		 for(int i = 0; i<actorsinMovie.size();i++) {
 			 dataactor.addElement(actorsinMovie.get(i));
 		 }
@@ -1630,14 +1629,16 @@ public class Drawing extends Canvas {
 		 }
 		 listwriters.setListData(datawrtiers);
 		
-		 dircstring = dircstring.replaceAll(",\\s+",",");
-		 String [] listofdirc = actors.split(",");
+		 ArrayList<Pair> directorsinMovie = Database.getDirectors(IDst);
+		 for(int i = 0; i<directorsinMovie.size();i++) {
+			datadirc.addElement(directorsinMovie.get(i));
+		}
+
 		 //ArrayList<Pair> actorsinMovie = Database.getPeople(listofactors);
 		 // @ ask allen if we still need this
-		 System.out.println("actors size:"+actorsinMovie.size());
-		 for(int i = 0; i<actorsinMovie.size();i++) {
-			 dataactor.addElement(actorsinMovie.get(i));
-		 }
+		 
+
+
 		 listdirc.setListData(datadirc);
 		// Now we start to place in all the objects
 		// to the need postion with the needed text 
@@ -1817,7 +1818,7 @@ public class Drawing extends Canvas {
 		 // start panes 
 		 wrtierspn.setBounds(2*width/5+10,460,100,300);
 		 actopn.setBounds(width/5+60,250,230,500);
-		 dircpn.setBounds(2*width/5+10, 250, 100, 50);
+		 dircpn.setBounds(2*width/5+10, 250, 100, 70);
 		 // end panes
 		 
 		 // This section is when action is reqired from a user mouse click
