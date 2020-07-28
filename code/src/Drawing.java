@@ -141,7 +141,7 @@ public class Drawing extends Canvas {
     	   Image i=t.getImage("map2.png"); 
     	   g.drawImage(i, 0, 0, width, height, this);
     	   for(int j=0; j<longcord.size();j++) {
-    		   g.setColor(new Color(rand.nextInt(255),rand.nextInt(255), rand.nextInt(255)));
+    		   g.setColor(Color.CYAN);
     		   if(j<10) {
     			   g.fillOval((int) Math.round(longcord.get(j)), (int) Math.round(latcord.get(j)), 50/(j+1), 50/(j+1));
     		   }else {
@@ -335,14 +335,14 @@ public class Drawing extends Canvas {
 	     likedactorslb.setForeground(white);
 	     likedactorslb.setOpaque(true);
 	     likedactorslb.setBackground(grey);
-	     likedactorslb.setText("    Liked Actors");
+	     likedactorslb.setText("    Liked People");
 	     likedactorslb.setBounds(3*width/5+40, 230, 200, 50);
 	     likedactorslb.setFont(new Font("Courier", Font.BOLD,15));
 		 
 	     favactorslb.setForeground(white);
 	     favactorslb.setOpaque(true);
 	     favactorslb.setBackground(grey);
-	     favactorslb.setText("     Favorite Actors");
+	     favactorslb.setText("     Favorite Person");
 	     favactorslb.setBounds(4*width/5+20, 230, 200, 50);
 	     favactorslb.setFont(new Font("Courier", Font.BOLD,15));
 	     
@@ -384,21 +384,21 @@ public class Drawing extends Canvas {
 	     likedactorslb1.setForeground(white);
 	     likedactorslb1.setOpaque(true);
 	     likedactorslb1.setBackground(grey);
-	     likedactorslb1.setText("Liked Actors:");
+	     likedactorslb1.setText("Liked People:");
 	     likedactorslb1.setBounds(167+3*width/5, height/2-100, 150, 40);
 	     likedactorslb1.setFont(new Font("Courier", Font.BOLD,12));
 	        
 	     likedactorlbtwo.setForeground(white);
 	     likedactorlbtwo.setOpaque(true);
 	     likedactorlbtwo.setBackground(grey);
-	     likedactorlbtwo.setText("Liked Actors: ");
+	     likedactorlbtwo.setText("Liked People: ");
 	     likedactorlbtwo.setBounds(4*width/5-60, height/2-100, 150, 40);
 	     likedactorlbtwo.setFont(new Font("Courier", Font.BOLD,12));
 	        
 	     favoreteactorlb.setForeground(white);
 	     favoreteactorlb.setOpaque(true);
 	     favoreteactorlb.setBackground(grey);
-	     favoreteactorlb.setText("Favorite Actor:");
+	     favoreteactorlb.setText("Favorite Person:");
 	     favoreteactorlb.setBounds(5*width/5-250, height/2-100, 150, 40);
 	     favoreteactorlb.setFont(new Font("Courier", Font.BOLD,12));
 		 // end of Lables
@@ -697,29 +697,29 @@ public class Drawing extends Canvas {
 	        instructionsbt4.addActionListener(new ActionListener(){
 				 public void actionPerformed(ActionEvent e){ 
 					 
-					 JOptionPane.showMessageDialog(null, "TO SEARCH FOR AN ACTOR YOU LIKE\n"
-					 		+ "1)Type the name of an actor in the search bar on the left\n"
+					 JOptionPane.showMessageDialog(null, "TO SEARCH FOR PERSON YOU LIKE\n"
+					 		+ "1)Type the name of an actor/director in the search bar on the left\n"
 					 		+ "2) Click the Search button\n"
 					 		+ "3) The result should appear on the list on the left. If it does not, try searching for single words in the actor's name\n\n"
-					 		+ "TO ADD AN ACTOR TO LIKED LIST\n"
+					 		+ "TO ADD A PERSON TO LIKED LIST\n"
 					 		+ "1) Click on the actor in your Searched list(left)\n"
 					 		+ "2) A popup will appear to confirm that you wish to add the actor\n\n"
-					 		+ "TO REMOVE AN ACTOR FROM YOUR LIKED LIST\n"
-					 		+ "1) Click on the actor in your liked list(right)\n"
-					 		+ "2)A popup will appear to confirm that you wish to remove the actor\\n" ,"Instructions", JOptionPane.INFORMATION_MESSAGE);
+					 		+ "TO REMOVE A PERSON FROM YOUR LIKED LIST\n"
+					 		+ "1) Click on the person in your liked list(right)\n"
+					 		+ "2)A popup will appear to confirm that you wish to remove the actor/director\\n" ,"Instructions", JOptionPane.INFORMATION_MESSAGE);
 					
 				 }
 			 }); 
 	        instructionsbt5.addActionListener(new ActionListener(){
 				 public void actionPerformed(ActionEvent e){ 
 					 
-					 JOptionPane.showMessageDialog(null, "TO ADD AN ACTOR TO FAVORITE\n"
-					 		+ "1) Click on the actor in your liked list(left)\n"
-					 		+ "2) A popup will appear to confirm that you wish to add the actor to favorite\n"
+					 JOptionPane.showMessageDialog(null, "TO ADD A PERSON TO FAVORITE\n"
+					 		+ "1) Click on the person in your liked list(left)\n"
+					 		+ "2) A popup will appear to confirm that you wish to add the person to favorite\n"
 					 		+ "3) Note: you are only allowed one favorite\n\n"
-					 		+ "TO REMOVE AN ACTOR FROM YOUR FAVORITE LIST \n"
-					 		+ "1) Click on the actor in your favorite list(right)\n"
-					 		+ "2)A popup will appear to confirm that you wish to remove the actor\n" ,"Instructions", JOptionPane.INFORMATION_MESSAGE);
+					 		+ "TO REMOVE A PERSON FROM YOUR FAVORITE LIST \n"
+					 		+ "1) Click on the actor/director in your favorite list(right)\n"
+					 		+ "2)A popup will appear to confirm that you wish to remove the actor/director\n" ,"Instructions", JOptionPane.INFORMATION_MESSAGE);
 					
 				 }
 			 }); 
@@ -857,7 +857,8 @@ public class Drawing extends Canvas {
 	                  if (index >= 0) {
 	                     Object item = target.getModel().getElementAt(index);
 	                     
-	                     int res = JOptionPane.showConfirmDialog(null, "Would you like to add "+item.toString()+" to your liked actors list?");
+	                     int res = JOptionPane.showConfirmDialog(null, "Would you like to add "+item.toString()+" to "
+	                     		+ "your liked person list?");
 	                     if(res==0) {
 	                    	 listlikeactorsone.setSelectedIndex(0);
 	                    	 datalikedactorsone.addElement(item);
@@ -878,7 +879,8 @@ public class Drawing extends Canvas {
 	                  int index = target.locationToIndex(me.getPoint());
 	                  if (index >= 0) {
 	                     Object item = target.getModel().getElementAt(index);
-	                     int res = JOptionPane.showConfirmDialog(null, "Would you like to remove "+item.toString()+" from your liked list?");
+	                     int res = JOptionPane.showConfirmDialog(null, "Would you like to remove "+item.toString()+" "
+	                     		+ "from your liked list?");
 	                     if(res==0) {
 	                    	 listlikeactorsone.setSelectedIndex(0);
 	                    	 datalikedactorsone.remove(item);
@@ -900,7 +902,8 @@ public class Drawing extends Canvas {
 		                  if (index >= 0) {
 		                     Object item = target.getModel().getElementAt(index);
 		                     if(!favoritactorfound) {
-		                     int res = JOptionPane.showConfirmDialog(null, "Would you like to add "+item.toString()+" as your favorit Movie? ");
+		                     int res = JOptionPane.showConfirmDialog(null, "Would you like to add "+item.toString()+" "
+		                     		+ "as your favorite Person? ");
 		                     if(res==0) {
 		                    	 datafavoritactors.add(item);
 		                    	 listfavoritactors.setListData(datafavoritactors);
@@ -923,7 +926,7 @@ public class Drawing extends Canvas {
 	                  if (index >= 0) {
 	                     Object item = target.getModel().getElementAt(index);
 	                     int res = JOptionPane.showConfirmDialog(null, "Would you like"
-	                     		+ " to remove "+item.toString()+" from your favorite actors");
+	                     		+ " to remove "+item.toString()+" from your favorite Person");
 	                     if(res==0) {
 	                    	 //listliked.setSelectedIndex(0);
 	                    	 datafavoritactors.remove(item);
@@ -1352,7 +1355,8 @@ public class Drawing extends Canvas {
 		    
 		    
 		    // this gets all the information from the database and and places the information 
-			//inside the list to be displayed and clicked on
+		    //inside the list to be displayed and clicked on
+		  //inside the list to be displayed and clicked on
 			int age = Integer.parseInt(Database.getAge(currUser,currPassword));
 			int ageIndex = Database.getAgeIndex(age);
 
@@ -1576,12 +1580,15 @@ public class Drawing extends Canvas {
 		 // all data for pane
 		 Vector dataactor = new Vector();
 		 Vector datawrtiers = new Vector();
+		 Vector datadirc = new Vector();
 		 // all the lists for the pane
 		 JList listactor = new JList();
 		 JList listwriters = new JList();
+		 JList listdirc = new JList();
 		 // all the panes
 		 JScrollPane actopn = new JScrollPane(listactor);
 		 JScrollPane wrtierspn = new JScrollPane(listwriters);
+		 JScrollPane dircpn = new JScrollPane(listdirc);
 		 
 		 
 		 // we interact with the data base to get the information
@@ -1593,7 +1600,7 @@ public class Drawing extends Canvas {
 		 String Titlest = movieInfo.get(1).toString();
 		 String origSyn = movieInfo.get(2).toString();
 		 String Synopsisst = origSyn.replaceAll("(.{1,25})(?:$| )", "$1\n");
-		 String Directorsst = movieInfo.get(9).toString();
+		 String dircstring = movieInfo.get(9).toString(); 
 		 String Ratingst = movieInfo.get(12).toString();
 	     String grossst =  movieInfo.get(8).toString();
 	     String contreyst = movieInfo.get(6).toString();
@@ -1601,9 +1608,11 @@ public class Drawing extends Canvas {
 	     String realsedatest =movieInfo.get(3).toString();
 	     String Durationst =movieInfo.get(5).toString();
 		 String MovieGenrest =movieInfo.get(4).toString();
-		 
+		 String actors = movieInfo.get(11).toString();
 		 // we need to split the string of actors so they can be placen 
 		 //in the pane so they can be clicked on 
+		 actors = actors.replaceAll(",\\s+",",");
+		 String [] listofactors = actors.split(",");
 		 ArrayList<Pair> actorsinMovie = Database.getActors(IDst);
 		 // @ ask allen if we still need this
 		 System.out.println("actors size:"+actorsinMovie.size());
@@ -1620,7 +1629,16 @@ public class Drawing extends Canvas {
 			 datawrtiers.addElement(listofwriters[i]);
 		 }
 		 listwriters.setListData(datawrtiers);
-		 
+		
+		 dircstring = dircstring.replaceAll(",\\s+",",");
+		 String [] listofdirc = actors.split(",");
+		 //ArrayList<Pair> actorsinMovie = Database.getPeople(listofactors);
+		 // @ ask allen if we still need this
+		 System.out.println("actors size:"+actorsinMovie.size());
+		 for(int i = 0; i<actorsinMovie.size();i++) {
+			 dataactor.addElement(actorsinMovie.get(i));
+		 }
+		 listdirc.setListData(datadirc);
 		// Now we start to place in all the objects
 		// to the need postion with the needed text 
 		 
@@ -1660,11 +1678,6 @@ public class Drawing extends Canvas {
 		 Dirclb.setBounds(2*width/5+10, 180, 100, 50);
 		 Dirclb.setFont(new Font("Courier", Font.BOLD,15));
 		 
-		 Directorinfolb.setForeground(black);
-		 Directorinfolb.setOpaque(true);
-		 Directorinfolb.setBackground(white);
-		 Directorinfolb.setText(Directorsst);
-		 Directorinfolb.setBounds(2*width/5+10, 250, 100, 50);
 		 
 		 Listofwriterslb.setForeground(white);
 		 Listofwriterslb.setOpaque(true);
@@ -1804,6 +1817,7 @@ public class Drawing extends Canvas {
 		 // start panes 
 		 wrtierspn.setBounds(2*width/5+10,460,100,300);
 		 actopn.setBounds(width/5+60,250,230,500);
+		 dircpn.setBounds(2*width/5+10, 250, 100, 50);
 		 // end panes
 		 
 		 // This section is when action is reqired from a user mouse click
@@ -1813,6 +1827,7 @@ public class Drawing extends Canvas {
 		 // function is called to start that frame
 		 mapbtn.addActionListener(new ActionListener(){
 			 public void actionPerformed(ActionEvent e){
+				 inputframe.remove(dircpn);
 				 inputframe.remove(actorinstructlb);
 				 inputframe.remove(Titlelb);
 				 inputframe.remove(realsedateinfolb);
@@ -1852,6 +1867,7 @@ public class Drawing extends Canvas {
 		 backbtn.addActionListener(new ActionListener(){
 			 public void actionPerformed(ActionEvent e){
 				 //Find Stuff to delete
+				 inputframe.remove(dircpn);
 				 inputframe.remove(actorinstructlb);
 				 inputframe.remove(Titlelb);
 				 inputframe.remove(realsedateinfolb);
@@ -1916,7 +1932,24 @@ public class Drawing extends Canvas {
 	                  int index = target.locationToIndex(me.getPoint());
 	                  if (index >= 0) {
 	                     Object item = target.getModel().getElementAt(index);
-	                     int res = JOptionPane.showConfirmDialog(null, "Would you like to add "+item.toString()+" to your liked actors List?");
+	                     int res = JOptionPane.showConfirmDialog(null, "Would you like to add "+item.toString()+" to your liked people List?");
+	                     if(res==0) {
+							Database.addLikedPerson(currPassword,currUser,((Pair)item).getKey());
+	                    	
+	                     };
+	                  }
+	               }
+	            }
+	         });
+		 // this will add the diector also the the list of liked people
+		 listdirc.addMouseListener(new MouseAdapter() {
+	            public void mouseClicked(MouseEvent me) {
+	               if (me.getClickCount() == 1) {
+	                  JList target = (JList)me.getSource();
+	                  int index = target.locationToIndex(me.getPoint());
+	                  if (index >= 0) {
+	                     Object item = target.getModel().getElementAt(index);
+	                     int res = JOptionPane.showConfirmDialog(null, "Would you like to add "+item.toString()+" to your liked people List?");
 	                     if(res==0) {
 							Database.addLikedPerson(currPassword,currUser,((Pair)item).getKey());
 	                    	
@@ -1927,6 +1960,7 @@ public class Drawing extends Canvas {
 	         });
 		 
 		 // then just make sure to add all the objects to the frame 
+		 inputframe.add(dircpn);
 		 inputframe.add(actorinstructlb);
 		 inputframe.add(Titlelb);
 		 inputframe.add(realsedateinfolb);
@@ -2091,21 +2125,21 @@ public class Drawing extends Canvas {
 	     UpdateActorinfolb.setForeground(white);
 	     UpdateActorinfolb.setOpaque(true);
 	     UpdateActorinfolb.setBackground(grey);
-	     UpdateActorinfolb.setText(" Actor Information");
+	     UpdateActorinfolb.setText(" People Information");
 	     UpdateActorinfolb.setBounds(79*width/128, 180, 200, 50);
 	     UpdateActorinfolb.setFont(new Font("Courier", Font.BOLD,17));
 	     
 	     UpdatefavoritActorinfolb.setForeground(white);
 	     UpdatefavoritActorinfolb.setOpaque(true);
 	     UpdatefavoritActorinfolb.setBackground(grey);
-	     UpdatefavoritActorinfolb.setText(" Favorite Actors");
+	     UpdatefavoritActorinfolb.setText(" Favorite Person");
 	     UpdatefavoritActorinfolb.setBounds(81*width/128, 650, 150, 50);
 	     UpdatefavoritActorinfolb.setFont(new Font("Courier", Font.BOLD,15));
 	     
 	     UpdatelikedActorinfolb.setForeground(white);
 	     UpdatelikedActorinfolb.setOpaque(true);
 	     UpdatelikedActorinfolb.setBackground(grey);
-	     UpdatelikedActorinfolb.setText("  Liked Actors");
+	     UpdatelikedActorinfolb.setText("  Liked People");
 	     UpdatelikedActorinfolb.setBounds(81*width/128, 250, 150, 50);
 	     UpdatelikedActorinfolb.setFont(new Font("Courier", Font.BOLD,15));
 		 // ends the label
@@ -2311,16 +2345,16 @@ public class Drawing extends Canvas {
 				 
 				 JOptionPane.showMessageDialog(null, "TO UPDATE USERNAME/PASSWORD/REAL NAME/AGE \n1)"
 				 		+ "Type in new information and click corresponding Submit(yellow) \n "
-				 		+ "\nTO DELETE A LIKED MOVIE/ACTOR \n"
+				 		+ "\nTO DELETE A LIKED MOVIE/PEOPLE \n"
 				 		+ "1) Click on corresponding list"
-				 		+ "\n2) Click on Movie/Actor you wish to remove"
+				 		+ "\n2) Click on Movie/Person you wish to remove"
 				 		+ "\n3) Click Yes on popup test box \n \n"
-				 		+ "TO DELETE FAVORITE MOVIE/ACTOR \n"
-				 		+ "1) Click on Favorite Movie/Actor "
+				 		+ "TO DELETE FAVORITE MOVIE/PERSON \n"
+				 		+ "1) Click on Favorite Movie/Person "
 				 		+ "\n2) Click Yes on popup test box\n \n"
-				 		+ "TO ADD A NEW FAVORITE MOVIE/ACTOR\n"
+				 		+ "TO ADD A NEW FAVORITE MOVIE/PERSON\n"
 				 		+ "1) Delete corresponding Favorite Movie/Actor\n"
-				 		+ "2) Click on your favorite Actor/Movie from your Liked tab\n"
+				 		+ "2) Click on your favorite Person/Movie from your Liked tab\n"
 				 		+ "2) Click Add To Favorite? on popup test box",
 				 		"Instructions", JOptionPane.INFORMATION_MESSAGE);
 				
@@ -2381,12 +2415,12 @@ public class Drawing extends Canvas {
 	                     int res = 4;
 	                     if(!favoritactorfound) {
 		                      res = JOptionPane.showOptionDialog(null,"Would you like to remove"
-		                      		+ " "+item.toString()+" from your Liked Actors?","",
+		                      		+ " "+item.toString()+" from your Liked People?","",
 		                      		JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null, options,options[0]); 
 
 	                     }else {
 		                      res = JOptionPane.showConfirmDialog(null, "Would you like "
-		                      		+ "to remove "+item.toString()+" from your Liked Actors?");
+		                      		+ "to remove "+item.toString()+" from your Liked People?");
 	                     }
 	                     if(res==0) {
 	                    	 Database.removeLikedPerson(((Pair)item).getKey(),currUser,currPassword);
@@ -2434,7 +2468,7 @@ public class Drawing extends Canvas {
 	                  if (index >= 0) {
 	                     Object item = target.getModel().getElementAt(index);
 	                     int res = JOptionPane.showConfirmDialog(null, "Would you like to remove "
-	                     		+ ""+item.toString()+"from Your Favorite Movies?");
+	                     		+ ""+item.toString()+"from Your Favorite Person?");
 	                     if(res==0) {
 	                    	 favoritactorfound = false;
 	                    	 Database.removeFavPerson(((Pair)item).getKey(),currUser,currPassword);
