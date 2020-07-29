@@ -138,7 +138,7 @@ public class Drawing extends Canvas {
        }
        else if(framecount==2) {//For the mapFrame
     	   Toolkit t=Toolkit.getDefaultToolkit(); 
-    	   Image i=t.getImage("map2.png"); 
+    	   Image i=t.getImage("code\\src\\map2.png");
     	   g.drawImage(i, 0, 0, width, height, this);
     	   for(int j=0; j<longcord.size();j++) {
     		   g.setColor(Color.CYAN);
@@ -1365,6 +1365,11 @@ public class Drawing extends Canvas {
 			ArrayList<Pair> simdirMovies = Database.simDirMovie(currPassword,currUser,ageIndex);
 			ArrayList<Pair> simallMovies = Database.simAllMovie(currPassword,currUser,ageIndex);
 
+		 	datasimactor.clear();
+		 	datasimgen.clear();
+		 	datasimdir.clear();
+		 	datasimall.clear();
+
 			for(int i =0;i<simactorMovies.size();i++) {
 				datasimactor.addElement(simactorMovies.get(i));
 			}
@@ -2589,6 +2594,8 @@ public class Drawing extends Canvas {
 			 //actors = actors.replaceAll(",\s+",",");
 			 //String [] listofactors = actors.split(",");
 			 ArrayList<ArrayList<Double>> coordinates = new ArrayList<ArrayList<Double>>();
+			 coordinates.add(new ArrayList<Double>());// Index 0 for Latitude
+			 coordinates.add(new ArrayList<Double>());// Index 1 for Longitude
 			 ArrayList<Double> coordPair = new ArrayList<Double>();
 			 ArrayList<Pair> actorsinMovie = Database.getActors(movieID);
 			 //For each actor in the actors list retrieved using getActors
@@ -2607,19 +2614,22 @@ public class Drawing extends Canvas {
 			 // coordinates should now have all the coordinate pairs for each actor
 
 			 //Now transfer these coordinates to x-y values
-			 for(int i = 0; i < coordinates.get(0).size(); i++){
-			 	double Latitude = coordinates.get(0).get(i);
-			 	double Longitude = coordinates.get(1).get(i);
+			 if(coordinates.size() != 0) {
+				 for (int i = 0; i < coordinates.get(0).size(); i++) {
+					 double Latitude = coordinates.get(0).get(i);
+					 double Longitude = coordinates.get(1).get(i);
 
-				 // the further down we go the larger the y off set needs to be
-				 yoffset = Math.sqrt((Math.abs(Latitude)+ 180 -Math.abs(Longitude)))+70;
-				 if(Latitude<0) {
-					 yoffset = yoffset+40;
-				 }// Once xoffset and yoffset are updated, adjust values and add to arrays
-				 longcord.add((double) (((180 +Longitude)*width/360.0)+xoffset));
-				 latcord.add((double) (height-((90+ Latitude)*height/180.0)+yoffset));
-				}
-
+					 // the further down we go the larger the y off set needs to be
+					 yoffset = Math.sqrt((Math.abs(Latitude) + 180 - Math.abs(Longitude))) + 70;
+					 if (Latitude < 0) {
+						 yoffset = yoffset + 40;
+					 }// Once xoffset and yoffset are updated, adjust values and add to arrays
+					 longcord.add((double) (((180 + Longitude) * width / 360.0) + xoffset));
+					 latcord.add((double) (height - ((90 + Latitude) * height / 180.0) + yoffset));
+				 }
+			 }else{
+			 	System.out.print("Coordinate array size is 0");
+			 }
 			 // this is the array list the allen is going to place in the values out
 			 //putted by the data ace
 //	    	 ArrayList<Double> longtemp =new ArrayList<Double>();

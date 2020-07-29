@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class TestJDBC {
 	//jdbc:mysql://localhost:3306/movieapp
-    static final String databasePrefix ="movieapp";//enter database
+    static final String databasePrefix ="movieapp2";//enter database
     static final String SQLlogin ="root"; // TODO change if pulled
     static final String hostName ="localhost:3306"; //TODO CHANGE if you've just pulled
     static final String databaseURL ="jdbc:mysql://"+hostName+"/"+databasePrefix+"?autoReconnect=true&useSSL=false";
@@ -408,13 +408,13 @@ public class TestJDBC {
     	return people;
 	}
 
-	public ArrayList<Pair> getActors(String person) {
+	public ArrayList<Pair> getActors(String movieID) {
     	ArrayList<Pair> people = new ArrayList<Pair>();
     	
     	try {
     		statement = connection.createStatement();
 			resultSet = statement.executeQuery("select p.castname,p.actorid from person p, actedin a where p.actorid=a.actorid and a.id='"
-			+person+"';");
+			+movieID+"';");
 
     		ResultSetMetaData metaData = resultSet.getMetaData();
     		int columns = metaData.getColumnCount();
@@ -660,11 +660,21 @@ public class TestJDBC {
 
     	try{
     		statement = connection.createStatement();
-    		statement.executeQuery("Select `AVG(Latitude)`, `AVG(Longitude)` FROM distinctplacewithcoord d, bornin b WHERE " +
-					"b.ActorID = " + actorID + " AND b.City = d.City AND b.Country = d.Country");
-    		coordPair.add(resultSet.getDouble(1));
-    		coordPair.add(resultSet.getDouble(2));
-    		return coordPair;
+    		resultSet = statement.executeQuery("Select d.Latitude, d.Longitude FROM distinctplacewithcoord d, bornin b WHERE " +
+					"b.ActorID='" + actorID +"'AND b.City = d.City AND b.Country = d.Country;");
+
+    		if(resultSet.next()) {
+				System.out.println(resultSet.getObject(1));
+				System.out.println(resultSet.getObject(2));
+//    		System.out.println(resultSet.getDouble(1));
+//			System.out.println(resultSet.getDouble(2));
+
+				coordPair.add(resultSet.getDouble(1));
+				coordPair.add(resultSet.getDouble(2));
+				return coordPair;
+			}else{
+    			System.out.println("The result set was null");
+			}
 
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();

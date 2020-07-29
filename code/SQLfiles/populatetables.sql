@@ -9,9 +9,7 @@ LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/actedin.csv' INT
     
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/directed.csv' INTO TABLE directed
     FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
-    
-update directed
-set actorid=replace(actorid,'\r','');
+
 /**
   TAKEN CARE OF BY THE MOVIES TABLE WITH newmovies.csv
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/ratings.csv' INTO TABLE ratings
@@ -30,3 +28,12 @@ LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/distinctplacewit
 
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/bornin.csv' INTO TABLE bornin
     FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
+
+update directed
+set actorid=replace(actorid,'\r','');
+
+update actedin
+set actorid=replace(actorid,'\r','');
+
+update person
+set Country=replace(Country,'\r','');
