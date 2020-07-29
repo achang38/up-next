@@ -1266,7 +1266,7 @@ public class Drawing extends Canvas {
 			SimDirectorLb.setForeground(white);
 			SimDirectorLb.setOpaque(true);
 			SimDirectorLb.setBackground(grey);
-			SimDirectorLb.setText("Recommended Movies \nWith liked Directors\nor Writers");
+			SimDirectorLb.setText("Recommended Movies \nWith liked Directors");
 			SimDirectorLb.setBounds(3*width/5+42, 200, 200, 75);
 			SimDirectorLb.setFont(new Font("Courier", Font.BOLD,15));
 			
