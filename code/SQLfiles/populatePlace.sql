@@ -10,13 +10,11 @@ create table Place(Country VARCHAR(255),
                    Population BIGINT,
                    Latitude DOUBLE,
                    Longitude DOUBLE,
-                   PRIMARY KEY(City, Country)
+                   PRIMARY KEY(City, Country,Latitude,Longitude)
 );
 
 -- LOAD PLACE
 -- ALTER TABLE place ALTER Population SET DEFAULT 0;
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/worldcitiesCleaned.csv' INTO TABLE place CHARACTER SET 'utf8'
     FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES;
-
-
 

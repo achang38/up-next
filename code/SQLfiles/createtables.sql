@@ -43,9 +43,11 @@ Create Table ActedIn(ID varchar(9), actorID varchar(16), primary key(ID,actorID)
 
 Create Table Directed(ID varchar(9), actorID varchar(16), primary key(ID,actorID));
 
-create table Ratings(avgtotal decimal(10,1),
+create table Ratings( ID varchar(255),
+                      avgtotal decimal(10,1),
                       avg0 decimal(10,1),
                       avg18 decimal(10,1),
                       avg30 decimal(10,1),
                       avg45 decimal(10,1),
-                      primary key(ID));
+                      primary key(ID), FOREIGN KEY (ID) REFERENCES movie(ID)
+                    );
