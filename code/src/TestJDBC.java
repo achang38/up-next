@@ -3,7 +3,7 @@ import java.sql.*;
 
 public class TestJDBC {
 	//jdbc:mysql://localhost:3306/movieapp
-    static final String databasePrefix ="movieapp2";//enter database
+    static final String databasePrefix ="movieapp";//enter database
     static final String SQLlogin ="root"; // TODO change if pulled
     static final String hostName ="localhost:3306"; //TODO CHANGE if you've just pulled
     static final String databaseURL ="jdbc:mysql://"+hostName+"/"+databasePrefix+"?autoReconnect=true&useSSL=false";
@@ -247,7 +247,7 @@ public class TestJDBC {
     	try {
 			statement = connection.createStatement();
 			
-			resultSet = statement.executeQuery("select m.title, m.id from movie m, actedin a where m.id not in "+
+			resultSet = statement.executeQuery("select distinct m.title, m.id from movie m, actedin a where m.id not in "+
 			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
 			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
 			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
@@ -319,7 +319,7 @@ public class TestJDBC {
     	try {
 			statement = connection.createStatement();
 			
-			resultSet = statement.executeQuery("select m.title, m.id from movie m, directed a where m.id not in "+
+			resultSet = statement.executeQuery("select distinct m.title, m.id from movie m, directed a where m.id not in "+
 			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
 			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
 			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+
@@ -352,7 +352,7 @@ public class TestJDBC {
     	try {
 			statement = connection.createStatement();
 			
-			resultSet = statement.executeQuery("select m.title, m.id from movie m, directed a, actedin a2 where m.id not in "+
+			resultSet = statement.executeQuery("select distinct m.title, m.id from movie m, directed a, actedin a2 where m.id not in "+
 			"(select id from likedmovie where username='"+user+"' and userpassword='"+password+
 			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
 			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') "+

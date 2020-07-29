@@ -816,7 +816,7 @@ public class Drawing extends Canvas {
 	                     Object item = target.getModel().getElementAt(index);
 	                     if(!favoritmoviefound) {
 	                     int res = JOptionPane.showConfirmDialog(null, "Would you like"
-	                     		+ " to add "+item.toString()+" as your favorit Movie? ");
+	                     		+ " to add "+item.toString()+" as your favorite Movie? ");
 	                     if(res==0) {
 	                    	 datafavoritMovie.add(item);
 	                    	 listfavoritmovie.setListData(datafavoritMovie);
@@ -1259,7 +1259,7 @@ public class Drawing extends Canvas {
 			SimGenraLb.setForeground(white);
 			SimGenraLb.setOpaque(true);
 			SimGenraLb.setBackground(grey);
-			SimGenraLb.setText("Recommended Movies \nWith favorite Genre");
+			SimGenraLb.setText("Recommended Movies \nWith Genre of\nFavorite Movie");
 			SimGenraLb.setBounds(2*width/5+60, 200, 200, 75);
 			SimGenraLb.setFont(new Font("Courier", Font.BOLD,15));
 			
@@ -1273,7 +1273,7 @@ public class Drawing extends Canvas {
 			ComboLb.setForeground(white);
 			ComboLb.setOpaque(true);
 			ComboLb.setBackground(grey);
-			ComboLb.setText("Recommended Movies \nWith All Three\nAttributes");
+			ComboLb.setText("Recommended Movies \nWith Liked Actors\n AND Directors");
 			ComboLb.setBounds(4*width/5+22, 200, 200, 75);
 			ComboLb.setFont(new Font("Courier", Font.BOLD,15));
 			
@@ -1287,7 +1287,7 @@ public class Drawing extends Canvas {
 			instruclistLb.setForeground(white);
 			instruclistLb.setOpaque(true);
 			instruclistLb.setBackground(grey);
-			instruclistLb.setText("1) The left consists of movie\nrecomendatons"
+			instruclistLb.setText("1) The left consists of movie\nrecommendations"
 					+ " organized by three \ncategories and one combination\n"
 					+ "2) Click on the list box you wish \nto select more information"
 					+ " about \na movie with in that box \n"
@@ -1721,7 +1721,7 @@ public class Drawing extends Canvas {
 		 contreylb.setForeground(white);
 		 contreylb.setOpaque(true);
 		 contreylb.setBackground(grey);
-		 contreylb.setText("Countrey Orgin");
+		 contreylb.setText("Country Orgin");
 		 contreylb.setBounds(2*width/5+190, 520, 150, 50);
 		 contreylb.setFont(new Font("Courier", Font.BOLD,15));
 		 
