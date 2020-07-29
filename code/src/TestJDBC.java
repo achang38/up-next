@@ -7,7 +7,7 @@ public class TestJDBC {
     static final String SQLlogin ="root"; // TODO change if pulled
     static final String hostName ="localhost:3306"; //TODO CHANGE if you've just pulled
     static final String databaseURL ="jdbc:mysql://"+hostName+"/"+databasePrefix+"?autoReconnect=true&useSSL=false";
-    static final String SQLpassword=""; // enter password TODO CHANGE if you've just pulled
+    static final String SQLpassword="Musk$#eteer>3"; // enter password TODO CHANGE if you've just pulled
     private Connection connection = null;
     private Statement statement = null;
 	private ResultSet resultSet = null;
@@ -590,9 +590,9 @@ public class TestJDBC {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery("select age from programuser where username='"+user+"' and userpassword='"+password+"';");
 			resultSet.next();
-		
-			return Integer.toString((Integer)resultSet.getObject(1));
-			
+
+			return String.valueOf(resultSet.getObject(1));
+
 	}
 	catch (SQLException e) {
 		e.printStackTrace();

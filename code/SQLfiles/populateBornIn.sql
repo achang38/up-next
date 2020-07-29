@@ -28,14 +28,13 @@ LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/CountryAbbreviat
     FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
 
 -- FIND MATCHES
-SELECT CountryAbbrev.name
+SELECT c.name
 FROM CountryAbbrev c, place p
 WHERE p.Country = c.name;
 
 
 
 Create table Bornin
-Select A.ActorID, P.City, P.Country, P.Region
-From Person A, Place P, CountryAbbrev C
--- Where P.City LIKE ('%' + @A.PlaceOfBirth + '%') AND P.Country LIKE ('%' + A.PlaceOfBirth + '%');
-WHERE P.City = A.City AND P.Country = C.alpha2 AND A.Country = C.name OR A.Country = C.alpha3;
+Select A.ActorID, D.City, D.Country, D.`AVG(Latitude)`, D.`AVG(Longitude)`
+From Person A, distinctplacewithcoord D, CountryAbbrev C
+WHERE D.City = A.City AND D.Country = C.alpha2 AND A.Country = C.name OR A.Country = C.alpha3 AND P.City = D.City AND P.Country = D.Country;

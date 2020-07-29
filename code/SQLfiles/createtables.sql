@@ -29,6 +29,8 @@ create table person(
                        primary key(ActorID)
 );
 
+create table ProgramUser(Userpassword varchar(255), Username varchar(255), realname varchar(255), age int, Primary key(userpassword, username));
+
 Create Table FavoritePerson(UserPassword varchar(255), UserName varchar(255), ActorID varchar(9), Primary key(UserPassword,UserName), FOREIGN KEY (UserPassword, UserName) REFERENCES ProgramUser(UserPassword, UserName) ON UPDATE cascade ON DELETE cascade, Foreign key (ActorID) references person(ActorID));
 -- they all need to be forgin keys becuase to be in the realtionship they must be in the tables already
 Create Table LikedPeople(UserPassword varchar(255), UserName varchar(255), ActorID varchar(9), Primary key(UserPassword,Username,ActorID), FOREIGN KEY (UserPassword, UserName) REFERENCES ProgramUser(UserPassword, UserName) ON UPDATE cascade ON DELETE cascade, FOREIGN KEY (ActorID) REFERENCES person(ActorID));
@@ -43,11 +45,3 @@ Create Table ActedIn(ID varchar(9), actorID varchar(16), primary key(ID,actorID)
 
 Create Table Directed(ID varchar(9), actorID varchar(16), primary key(ID,actorID));
 
-create table Ratings( ID varchar(255),
-                      avgtotal decimal(10,1),
-                      avg0 decimal(10,1),
-                      avg18 decimal(10,1),
-                      avg30 decimal(10,1),
-                      avg45 decimal(10,1),
-                      primary key(ID), FOREIGN KEY (ID) REFERENCES movie(ID)
-                    );
