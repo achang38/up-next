@@ -2550,7 +2550,7 @@ public class Drawing extends Canvas {
 	 // the paint method can place on the map with the actors where born in
 		 public static void map(JFrame inputframe, Object Movie) {
 			 Random rand = new Random();
-			 framecount =2;
+			 framecount = 2;
 			 inputframe.getContentPane().setBackground(Color.CYAN);
 			 inputframe.setDefaultCloseOperation(inputframe.EXIT_ON_CLOSE);
 			 inputframe.setTitle("Map Screen");
@@ -2578,43 +2578,83 @@ public class Drawing extends Canvas {
 			 		+ " Size of the dot\nrepresents the order\nbilled in the movie");
 			 Informationfld.setBounds(30, 500, 250, 150);
 			 Informationfld.setFont(new Font("Courier", Font.BOLD,15));
-			 //end fields 
-			 
+			 //end fields
+
+			 //Get actors from the movie
+			 String movieID = ((Pair)Movie).getKey();
+			 //movieInfo.clear();
+			 //movieInfo = Database.getMovieInfo(movieID);
+			 //String actors = movieInfo.get(11).toString();
+			 // we need to split the string of actors to get their Id's
+			 //actors = actors.replaceAll(",\s+",",");
+			 //String [] listofactors = actors.split(",");
+			 ArrayList<ArrayList<Double>> coordinates = new ArrayList<ArrayList<Double>>();
+			 ArrayList<Double> coordPair = new ArrayList<Double>();
+			 ArrayList<Pair> actorsinMovie = Database.getActors(movieID);
+			 //For each actor in the actors list retrieved using getActors
+			 for (Pair a: actorsinMovie) {
+			 	 //Now retrieve coordinates for the current actor as a coordinate pair
+				 //Reassigned each actor
+				 coordPair = Database.getCoordinates(a.getKey());
+				 //Insert into coordinates array
+				 if(coordPair != null) {
+					 coordinates.get(0).add(coordPair.get(0));
+					 coordinates.get(1).add(coordPair.get(1));
+				 }else{
+				 	System.out.println("The coordinate pair is null");
+				 }
+			 }
+			 // coordinates should now have all the coordinate pairs for each actor
+
+			 //Now transfer these coordinates to x-y values
+			 for(int i = 0; i < coordinates.get(0).size(); i++){
+			 	double Latitude = coordinates.get(0).get(i);
+			 	double Longitude = coordinates.get(1).get(i);
+
+				 // the further down we go the larger the y off set needs to be
+				 yoffset = Math.sqrt((Math.abs(Latitude)+ 180 -Math.abs(Longitude)))+70;
+				 if(Latitude<0) {
+					 yoffset = yoffset+40;
+				 }// Once xoffset and yoffset are updated, adjust values and add to arrays
+				 longcord.add((double) (((180 +Longitude)*width/360.0)+xoffset));
+				 latcord.add((double) (height-((90+ Latitude)*height/180.0)+yoffset));
+				}
+
 			 // this is the array list the allen is going to place in the values out
 			 //putted by the data ace
-	    	 ArrayList<Double> longtemp =new ArrayList<Double>();
-	    	 ArrayList<Double> lattemp = new ArrayList<Double>();
-	    	 longtemp.add(-119.417931);
-	    	 longtemp.add(-89.500000);
-	    	 longtemp.add(2.349014);
-	    	 longtemp.add(151.209900);
-	    	 longtemp.add(12.496366);
-	    	 longtemp.add(-153.369141);
-	    	 longtemp.add(46.460938);
-	    	 longtemp.add(-46.625290);
-	    	 longtemp.add(139.839478);
-	    	 lattemp.add(36.778259);
-	    	 lattemp.add(44.500000);
-	    	 lattemp.add(48.864716);
-	    	 lattemp.add(-33.865143);
-	    	 lattemp.add(41.902782);
-	    	 lattemp.add(66.160507);
-	    	 lattemp.add(-19.002846);
-	    	 lattemp.add(-23.533773);
-	    	 lattemp.add(35.652832);
-	    	 
-		     for(int i=0; i< lattemp.size();i++) {
-	    	 double longvale = longtemp.get(i);
-		    	 double latvale = lattemp.get(i);
-		    	 // the further down we go the larger the y off set needs to be 
-		    	 yoffset = Math.sqrt((Math.abs(latvale)+ 180 -Math.abs(longvale)))+70;
-		    	 if(latvale<0) {
-		    		 yoffset = yoffset+40;
-		    	 }
-		    	 longcord.add((double) (((180 +longvale)*width/360.0)+xoffset));
-		    	 latcord.add((double) (height-((90+ latvale)*height/180.0)+yoffset));
-	    
-		     }
+//	    	 ArrayList<Double> longtemp =new ArrayList<Double>();
+//	    	 ArrayList<Double> lattemp = new ArrayList<Double>();
+//	    	 longtemp.add(-119.417931);
+//	    	 longtemp.add(-89.500000);
+//	    	 longtemp.add(2.349014);
+//	    	 longtemp.add(151.209900);
+//	    	 longtemp.add(12.496366);
+//	    	 longtemp.add(-153.369141);
+//	    	 longtemp.add(46.460938);
+//	    	 longtemp.add(-46.625290);
+//	    	 longtemp.add(139.839478);
+//	    	 lattemp.add(36.778259);
+//	    	 lattemp.add(44.500000);
+//	    	 lattemp.add(48.864716);
+//	    	 lattemp.add(-33.865143);
+//	    	 lattemp.add(41.902782);
+//	    	 lattemp.add(66.160507);
+//	    	 lattemp.add(-19.002846);
+//	    	 lattemp.add(-23.533773);
+//	    	 lattemp.add(35.652832);
+//
+//		     for(int i=0; i< lattemp.size();i++) {
+//	    	 double longvale = longtemp.get(i);
+//		    	 double latvale = lattemp.get(i);
+//		    	 // the further down we go the larger the y off set needs to be
+//		    	 yoffset = Math.sqrt((Math.abs(latvale)+ 180 -Math.abs(longvale)))+70;
+//		    	 if(latvale<0) {
+//		    		 yoffset = yoffset+40;
+//		    	 }
+//		    	 longcord.add((double) (((180 +longvale)*width/360.0)+xoffset));
+//		    	 latcord.add((double) (height-((90+ latvale)*height/180.0)+yoffset));
+//
+//		     }
 		    
 		     Canvas canvas = new Drawing();
 		     canvas.setSize(width, height);
@@ -2631,7 +2671,6 @@ public class Drawing extends Canvas {
 				     longcord = new ArrayList<Double>();
 				     latcord =new ArrayList<Double>();
 					 selectedMovie(inputframe, Movie);
-					 
 
 				 }
 			 });
