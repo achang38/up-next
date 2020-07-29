@@ -33,8 +33,34 @@ FROM CountryAbbrev c, place p
 WHERE p.Country = c.name;
 
 
-
+-- Alpha 2 matches the country code of distinctplacewithcoord.Country
+-- Alpha 3 or country name matches the country name in person.Country
+drop table  Bornin;
 Create table Bornin
-Select A.ActorID, D.City, D.Country, D.`AVG(Latitude)`, D.`AVG(Longitude)`
+Select A.ActorID, D.City, D.Country
 From Person A, distinctplacewithcoord D, CountryAbbrev C
-WHERE D.City = A.City AND D.Country = C.alpha2 AND A.Country = C.name OR A.Country = C.alpha3 AND P.City = D.City AND P.Country = D.Country;
+WHERE lower(D.City) = lower(A.City) AND lower(D.Country) = lower(C.alpha2) AND (lower(A.Country) = lower(C.name) OR lower(A.Country) = lower(C.alpha3));
+
+drop table Bornin;
+create table Bornin
+Select A.ActorID, D.City, D.Country
+From Person A, distinctplacewithcoord D
+WHERE D.City = lower(A.City);
+-- FOR TESTING
+create table DistinctAndAbbrev
+Select D.City, D.Country
+From distinctplacewithcoord D, CountryAbbrev C
+WHERE D.Country = lower(C.alpha2);
+-- FOR TESTING
+drop table PersonAndAbbrev;
+create table PersonAndAbbrev
+Select p.City, p.Country
+FROM Person p, CountryAbbrev c
+WHERE TRIM(lower(p.Country)) = lower(c.name);
+
+-- WORKED, 30k entries (out of 174k)
+drop table PersonAndPlace;
+create table PersonAndPlace
+select pr.ActorID, pl.City, pl.Country
+from person pr, place pl
+where lower(pr.City) = pl.City;

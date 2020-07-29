@@ -654,6 +654,23 @@ public class TestJDBC {
     		e.printStackTrace();
     	}
 	}
+
+	public ArrayList<Double> getCoordinates(String actorID){
+    	ArrayList<Double> coordPair = new ArrayList<Double>();
+
+    	try{
+    		statement = connection.createStatement();
+    		statement.executeQuery("Select `AVG(Latitude)`, `AVG(Longitude)` FROM distinctplacewithcoord d, bornin b WHERE " +
+					"b.ActorID = " + actorID + " AND b.City = d.City AND b.Country = d.Country");
+    		coordPair.add(resultSet.getDouble(1));
+    		coordPair.add(resultSet.getDouble(2));
+    		return coordPair;
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+		return null;
+	}
     
     public static void main(String args[]) {
 
