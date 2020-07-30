@@ -71,9 +71,12 @@ Create Table Directed(ID varchar(9), actorID varchar(16), primary key(ID,actorID
 Create Table DistinctPlaceWithCoord(Country varchar(2), City varchar(255), Latitude DOUBLE, Longitude DOUBLE);
 
 Create Table BornIn(ActorID varchar(16), City VARCHAR(255), Country VARCHAR(2));
-/** ORIGINALLY USED A TABLE THAT FINDS DISTINCT VALUES FROM PLACE SINCE THERE IS NO PRIMARY KEY FOR PLACE
-    THIS WAS INTENTIONAL AS HAVING A PRIMARY KEY RESULTED IN DUPLICATE ERORS DUE TO AN ISSUE WITH
-    SPECIAL UNICODE CHARACTERS NOT BEING DIFFERENTIATED FROM ASCII VALUES
+
+/** ORIGINALLY USED A TABLE THAT FINDS DISTINCT VALUES FROM PLACE SINCE THERE IS NO PRIMARY KEY FOR PLACE.
+    THIS WAS INTENTIONAL AS HAVING A PRIMARY KEY RESULTED IN DUPLICATE ERRORS DUE TO AN ISSUE WITH
+    SPECIAL UNICODE CHARACTERS NOT BEING DIFFERENTIATED FROM ASCII VALUES.
+    We are no longer implementing them as dependent on other table with a select/from/where,
+    but loading from a cleaned csv as a result of formerly performing this operation.
 create table  distinctPlaceWithCoord
 SElECT Country, City, AVG(Latitude), AVG(Longitude)
 FROM  PLACE

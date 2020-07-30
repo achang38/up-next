@@ -4,13 +4,13 @@ import java.sql.*;
 /**
  * This class uses the ConnectorJ driver to connect to MySQL database and interact with it
  */
-public class TestJDBC {
+public class JDBC {
 	//jdbc:mysql://localhost:3306/movieapp
-    static final String databasePrefix ="movieapp";//enter database
-    static final String SQLlogin ="root"; // TODO change if pulled
-    static final String hostName ="localhost:3306"; //TODO CHANGE if you've just pulled
+    static final String databasePrefix ="movieapp";//enter database name if different
+    static final String SQLlogin ="root"; // Change user if needed
+    static final String hostName ="localhost:3306"; //Change hostname if needed
     static final String databaseURL ="jdbc:mysql://"+hostName+"/"+databasePrefix+"?autoReconnect=true&useSSL=false";
-    static final String SQLpassword=""; // enter password TODO CHANGE if you've just pulled
+    static final String SQLpassword=""; // please enter your password here
     private Connection connection = null;
     private Statement statement = null;
 	private ResultSet resultSet = null;
@@ -688,7 +688,7 @@ public class TestJDBC {
 	//This main method is to simply test that queries work
     public static void main(String args[]) {
 
-    	TestJDBC demoObj = new TestJDBC();
+    	JDBC demoObj = new JDBC();
 		demoObj.Connection();
 		
     }

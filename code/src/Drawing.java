@@ -8,35 +8,30 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.border.Border;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 /*
  * 
  * 
  * 
- * We could not put the each frame in a diffrent classes because it is posible to go back and forth
+ * We could not put the each frame in a different classes because it is possible to go back and forth
  * between frames and therefore would create a sort of loop
- * so for ogization purposes, this will be almost like a table of contents
+ * so for organization purposes, this will be almost like a table of contents
  * 
  * All the methods apart from paint follow the same basic layout
  * 
@@ -62,10 +57,7 @@ import java.awt.Font;
  * 	UserInfo
  * 
  * 	Map
- * 
- * 
- * 
- * 
+ *
  * 
  * 
  */
@@ -81,7 +73,7 @@ public class Drawing extends Canvas {
 	static boolean favoritactorfound = false;
 	static boolean usercreated = false;
 	private static boolean settingchange = false;
-	private static TestJDBC Database = new TestJDBC();
+	private static JDBC Database = new JDBC();
 	private static ArrayList<Pair> searchMovies = new ArrayList<Pair>();
 	private static ArrayList<Pair> searchPeople = new ArrayList<Pair>();
 	private static ArrayList<Double> longcord = new ArrayList<Double>();
@@ -1139,7 +1131,7 @@ public class Drawing extends Canvas {
 	        	public void actionPerformed(ActionEvent e){
 	        		String username = UserNamefld.getText();
 	        		String password = Passwordfld.getText();
-	        		TestJDBC Database = new TestJDBC();
+	        		JDBC Database = new JDBC();
 	        		Database.Connection();
 	        		if(Database.verifyLogin(username,password)) {
 	        			currUser = username;
