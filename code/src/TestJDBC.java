@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.sql.*;
 
+/**
+ * This class uses the ConnectorJ driver to connect to MySQL database and interact with it
+ */
 public class TestJDBC {
 	//jdbc:mysql://localhost:3306/movieapp
     static final String databasePrefix ="movieapp";//enter database
@@ -11,9 +14,12 @@ public class TestJDBC {
     private Connection connection = null;
     private Statement statement = null;
 	private ResultSet resultSet = null;
+
+	//stores column names for age ratings
 	private static String[] agecolumns = {"avg0","avg18","avg30","avg45"};
    
-    
+	
+	//Connect to the database
     public void Connection(){
   
       try {
@@ -30,6 +36,7 @@ public class TestJDBC {
         }
     }
 	
+	//Given a movieID, return a list of that movies attributes
 	public ArrayList<Object> getMovieInfo(String movieID) {
 		ArrayList<Object> mInfo = new ArrayList<Object>();
 		try {
@@ -53,7 +60,8 @@ public class TestJDBC {
 		}
 		return mInfo;
 	}
-    
+	
+	//given a username and password, check if it is valid for the database
     public boolean verifyLogin(String username, String password) {
     	try {
     		statement = connection.createStatement();
@@ -71,7 +79,8 @@ public class TestJDBC {
     	}
     	return false;
     }
-    
+	
+	//check if a username has already been taken
     public boolean verifyNewUser(String username) {
     	try {
     		statement = connection.createStatement();
@@ -89,7 +98,8 @@ public class TestJDBC {
     	}
     	return false;
     }
-    
+	
+	//add a new user to the Programuser table
     public void addNewUser(String username, String password, String name, int age) {
     	try {
     		statement = connection.createStatement();
@@ -101,7 +111,8 @@ public class TestJDBC {
     	}
     	
     }
-    
+	
+	//search for a movie by name and return all results in Pairs holding movie name and id
     public ArrayList<Pair> searchMovie(String movie) {
     	ArrayList<Pair> movies = new ArrayList<Pair>();
     	
@@ -132,16 +143,13 @@ public class TestJDBC {
     	return movies;
 	}
 	
-	
+	//return list of all liked movies by a user
 	public ArrayList<Pair> likedMovie(String password,String user) {
     	ArrayList<Pair> movies = new ArrayList<Pair>();
     	
     	try {
     		statement = connection.createStatement();
     		resultSet = statement.executeQuery("select m.title, m.ID from movie m, likedmovie l where m.id=l.id and l.username='"+user+"' and l.userpassword='"+password+"';");
-
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
 
     		while (resultSet.next()) {
@@ -160,15 +168,13 @@ public class TestJDBC {
     	return movies;
 	}
 
+	//return list of all liked people of a user
 	public ArrayList<Pair> likedPeople(String password,String user) {
     	ArrayList<Pair> people = new ArrayList<Pair>();
     	
     	try {
     		statement = connection.createStatement();
     		resultSet = statement.executeQuery("select p.castname, p.actorID from person p, likedpeople l where p.actorid=l.actorid and l.username='"+user+"' and l.userpassword='"+password+"';");
-
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
 
     		while (resultSet.next()) {
@@ -186,6 +192,7 @@ public class TestJDBC {
     	return people;
 	}
 
+	//get the favorite movie of a user in a pair arraylist
 	public ArrayList<Pair> favoriteMovie(String password,String user) {
     	ArrayList<Pair> movies = new ArrayList<Pair>();
     	
@@ -193,8 +200,6 @@ public class TestJDBC {
     		statement = connection.createStatement();
     		resultSet = statement.executeQuery("select m.title, m.ID from movie m, favoritemovie l where m.id=l.id and l.username='"+user+"' and l.userpassword='"+password+"';");
 
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
     		while (resultSet.next()) {
        
@@ -211,15 +216,13 @@ public class TestJDBC {
     	return movies;
 	}
 
+	//get favorite person a user
 	public ArrayList<Pair> favoritePerson(String password,String user) {
     	ArrayList<Pair> people = new ArrayList<Pair>();
     	
     	try {
     		statement = connection.createStatement();
     		resultSet = statement.executeQuery("select p.castname, p.actorID from person p, favoriteperson l where p.actorid=l.actorid and l.username='"+user+"' and l.userpassword='"+password+"';");
-
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
 
     		while (resultSet.next()) {
@@ -238,7 +241,8 @@ public class TestJDBC {
     	return people;
 	}
 	
-	
+	//find movies that contain an actor that user likes, that are not already in likedmovies, dislikedmovies, or favoritemovie
+	//order by rating for age index
 	public ArrayList<Pair> simActorMovie(String password,String user, int ageIndex) {
 		ArrayList<Pair> movies = new ArrayList<Pair>();
 		String agecolumn = agecolumns[ageIndex];
@@ -255,11 +259,6 @@ public class TestJDBC {
 			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
 			"' and userpassword='"+password+"') order by "+agecolumn+" desc limit 15;");
 
-			
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
-
-
 
     		while (resultSet.next()) {
        
@@ -277,6 +276,7 @@ public class TestJDBC {
     	return movies;
 	}
 
+	//find movies that match the genre of users favorite movie
 	public ArrayList<Pair> simGenreMovie(String password,String user,int ageIndex) {
 		ArrayList<Pair> movies = new ArrayList<Pair>();
 		String agecolumn = agecolumns[ageIndex];
@@ -290,10 +290,6 @@ public class TestJDBC {
 			"' and f.id=m2.id) and m.id not in (select id from likedmovie where username='"+user+"' and userpassword='"+password+
 			"' union select id from dislikedmovie where username='"+user+"' and userpassword='"+password+
 			"' union select id from favoritemovie where username='"+user+"' and userpassword='"+password+"') order by "+agecolumn+" desc limit 15; ");
-
-			
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
 
 
@@ -312,6 +308,7 @@ public class TestJDBC {
     	return movies;
 	}
 
+	//find movies that are directed by someone a user likes
 	public ArrayList<Pair> simDirMovie(String password,String user,int ageIndex) {
 		ArrayList<Pair> movies = new ArrayList<Pair>();
 		String agecolumn = agecolumns[ageIndex];
@@ -327,9 +324,6 @@ public class TestJDBC {
 			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
 			"' and userpassword='"+password+"') order by "+agecolumn+" desc limit 15;");
 
-			
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
     		while (resultSet.next()) {
        
@@ -345,6 +339,7 @@ public class TestJDBC {
     	return movies;
 	}
 
+	//find movies that are directed and contain an actor that user likes
 	public ArrayList<Pair> simAllMovie(String password,String user, int ageIndex) {
 		ArrayList<Pair> movies = new ArrayList<Pair>();
 		String agecolumn = agecolumns[ageIndex];
@@ -362,9 +357,6 @@ public class TestJDBC {
 			"' and userpassword='"+password+"' union select actorid from favoriteperson where username='"+user+
 			"' and userpassword='"+password+"') order by "+agecolumn+" desc limit 15;");
 
-			
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
 
     		while (resultSet.next()) {
@@ -382,15 +374,13 @@ public class TestJDBC {
     	return movies;
 	}
 
+	//search for people that match String person in the Person table
     public ArrayList<Pair> searchPeople(String person) {
     	ArrayList<Pair> people = new ArrayList<Pair>();
     	
     	try {
     		statement = connection.createStatement();
     		resultSet = statement.executeQuery("select castname,actorid from person where castname like '%"+person+"%';");
-
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
     		while (resultSet.next()) {
        
@@ -408,6 +398,7 @@ public class TestJDBC {
     	return people;
 	}
 
+	//get all actors in movie by their id, cast name
 	public ArrayList<Pair> getActors(String movieID) {
     	ArrayList<Pair> people = new ArrayList<Pair>();
     	
@@ -415,9 +406,6 @@ public class TestJDBC {
     		statement = connection.createStatement();
 			resultSet = statement.executeQuery("select p.castname,p.actorid from person p, actedin a where p.actorid=a.actorid and a.id='"
 			+movieID+"';");
-
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
     		while (resultSet.next()) {
        
@@ -436,6 +424,7 @@ public class TestJDBC {
     	return people;
 	}
 
+	//get directors of movie by their id, castname
 	public ArrayList<Pair> getDirectors(String person) {
     	ArrayList<Pair> people = new ArrayList<Pair>();
     	
@@ -444,8 +433,6 @@ public class TestJDBC {
 			resultSet = statement.executeQuery("select p.castname,p.actorid from person p, directed a where p.actorid=a.actorid and a.id='"
 			+person+"';");
 
-    		ResultSetMetaData metaData = resultSet.getMetaData();
-    		int columns = metaData.getColumnCount();
 
     		while (resultSet.next()) {
        
@@ -463,7 +450,7 @@ public class TestJDBC {
     	return people;
 	}
 	
-    
+    //add to user liked list
     public void addLikedMovie(String password, String user, String id) {
     	try {
     		statement = connection.createStatement();
@@ -475,6 +462,7 @@ public class TestJDBC {
     	}
 	}
 	
+	//add to user disliked list
 	public void addDislikedMovie(String password, String user, String id) {
     	try {
     		statement = connection.createStatement();
@@ -485,7 +473,8 @@ public class TestJDBC {
     		e.printStackTrace();
     	}
     }
-    
+	
+	//add to user liked list of people
     public void addLikedPerson(String password, String user, String id) {
     	try {
     		statement = connection.createStatement();
@@ -497,6 +486,7 @@ public class TestJDBC {
     	}
     }
 
+	//update the favorite movie of user
     public void addFavMovie(String password, String user, String id) {
     	try {
     		statement = connection.createStatement();
@@ -508,6 +498,7 @@ public class TestJDBC {
     	}
     }
 
+	//update favorite person of user
     public void addFavPerson(String password, String user, String id) {
     	try {
     		statement = connection.createStatement();
@@ -519,6 +510,7 @@ public class TestJDBC {
     	}
 	}
 	
+	//change username of user
 	public void changeUsername(String newuser, String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -530,6 +522,7 @@ public class TestJDBC {
     	}
 	}
 
+	//change password of user
 	public void changePassword(String newpass, String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -541,6 +534,7 @@ public class TestJDBC {
     	}
 	}
 
+	//change age of user
 	public void changeAge(int newage, String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -552,6 +546,7 @@ public class TestJDBC {
     	}
 	}
 
+	//change real name attribute of user
 	public void changeName(String newname, String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -563,6 +558,7 @@ public class TestJDBC {
     	}
 	}
 
+	//find the age index based off of users age
 	public int getAgeIndex(int age) {
 		if(age<18) return 0;
 		if(age<30) return 1;
@@ -570,6 +566,7 @@ public class TestJDBC {
 		return 3;
 	}
 
+	//get user real name
 	public String getRealName(String user, String password) {
 		try {
     			statement = connection.createStatement();
@@ -585,6 +582,7 @@ public class TestJDBC {
 		return "";
 	}
 
+	//get user age as string
 	public String getAge(String user, String password) {
 		try {
 			statement = connection.createStatement();
@@ -600,6 +598,7 @@ public class TestJDBC {
 	return "";
 	}
 
+	//remove liked movie from user list
 	public void removeLikedMovie(String movieID, String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -611,6 +610,7 @@ public class TestJDBC {
     	}
 	}
 
+	//remove liked person from user list
 	public void removeLikedPerson(String actorID, String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -622,6 +622,7 @@ public class TestJDBC {
     	}
 	}
 
+	//remove favorite movie of user
 	public void removeFavMovie(String movieID, String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -633,6 +634,7 @@ public class TestJDBC {
     	}
 	}
 
+	//remove favorite person of user
 	public void removeFavPerson(String actorID, String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -644,6 +646,7 @@ public class TestJDBC {
     	}
 	}
 
+	//delete users account
 	public void deleteUser(String user, String password) {
 		try {
     		statement = connection.createStatement();
@@ -681,18 +684,13 @@ public class TestJDBC {
 		}
 		return null;
 	}
-    
+	
+	//This main method is to simply test that queries work
     public static void main(String args[]) {
 
     	TestJDBC demoObj = new TestJDBC();
 		demoObj.Connection();
-		System.out.println(demoObj.simGenreMovie("Enter Password Here","frankie5",1));
-		//demoObj.simActorMovie("Enter Password Here","billybob");
-    	//String sqlQuery ="select * from student where level = 'JR';";
-    	//demoObj.simpleQuery(sqlQuery);
-    	//System.out.println(demoObj.verifyLogin("12345", "test1"));
-    	//demoObj.addNewUser("user", "password", "name",20);
-    	//476 login
+		
     }
     
 }

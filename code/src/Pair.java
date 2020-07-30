@@ -1,4 +1,6 @@
-
+/**
+ * A simple class to store a key, value pair. Will mainly hold ids of movies and actors along with their name
+ */
 public class Pair {
 	private String key;
 	private String info;
