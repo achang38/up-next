@@ -1,5 +1,5 @@
 # up-next
-A movie suggestion application that recommends movies to the user based on the movies and actors they've liked in the past. This application was created because of our interest in finding new movies to watch. It was our final project for CS564 Database Management Systems at the University of Wisconsin - Madison. To learn about our design process and testing, 
+A movie suggestion application that recommends movies to the user based on the movies and actors they've liked in the past. This application was created because of our interest in finding new movies to watch. It was our final project for CS564 Database Management Systems at the University of Wisconsin - Madison. To learn about our [design process and testing](./project_info/FinalProjectPPTGroup4.pptx), to read our [final report](./project_info/FinalReportGroup4.docx), and to watch a [video demo](./project_info/UpNextWalkthrough.mp4).
 
 ## Setup
 Running this application requires the installation of Java and MySQL. Using your editor for MySQL, you must first setup the database with:
